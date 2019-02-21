@@ -74,9 +74,12 @@ def tf_accuracy(y_true, y_pred):
     return tf.contrib.metrics.accuracy(y_pred_classes, y_true_classes)
 
 
+def tf_pearson(y_true, y_pred):
+    return tf.contrib.metrics.streaming_pearson_correlation(y_pred, y_true)[1]
+
 model.compile(loss=keras.losses.categorical_crossentropy,
               optimizer=keras.optimizers.Adadelta(),
-              metrics=['accuracy', cohens_kappa, tf_accuracy])
+              metrics=['accuracy', cohens_kappa, tf_accuracy, tf_pearson])
 
 # tensorflow variables need to be initialized before calling model.fit()
 # there is also a tf.global_variables_initializer(); that one doesn't seem to do the trick
